@@ -1,20 +1,15 @@
 public abstract class Variable {
 
-    private final int  scope;
-    private int value;
-    private final String name;
+    protected  String name;
+    protected  int scope;
+    protected String value;
 
-
-    Variable(int scope,String name){
-        this.scope = scope;
+    Variable(String name,int scope){
         this.name = name;
+        this.scope = scope;
     }
 
-    abstract void setValue();
-
-    public int getValue(){
-        return this.value;
-    }
+    Variable(){}
 
     public String getName(){
         return this.name;
@@ -23,4 +18,8 @@ public abstract class Variable {
     public int getScope(){
         return this.scope;
     }
+
+    abstract String getValue();
+
+    abstract void setValue(String value) throws Exception;
 }

@@ -1,9 +1,9 @@
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class BooleanVariable extends Variable {
+public class CharVariable extends Variable {
 
-    private final Pattern  pattern= Pattern.compile("true|false|[0-9]+\\.[0-9]+|[0-9]+");
+    private final Pattern pattern = Pattern.compile("[^\\s]");
 
     public boolean checkValue(String value){
         Matcher matcher = pattern.matcher(value);

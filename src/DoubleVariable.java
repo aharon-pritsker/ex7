@@ -3,7 +3,7 @@ import java.util.regex.Matcher;
 
 public class DoubleVariable extends Variable {
 
-    private final Pattern pattern = Pattern.compile("[0-9]*//.[0-9]+");
+    private final Pattern pattern = Pattern.compile("[0-9]+//.[0-9]+");
 
     private String value;
 
@@ -13,17 +13,10 @@ public class DoubleVariable extends Variable {
         this.value = value;
     }
 
-    public String getValue(){
-        return this.value;
-    }
 
-    public void setValue(String value) throws Exception {
+    public boolean checkValue(String value){
         Matcher matcher = pattern.matcher(value);
-        if (matcher.matches()) {
-            this.value = value;
-        }else{
-            throw new Exception();
-        }
+        return matcher.matches();
     }
 
 }

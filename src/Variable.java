@@ -1,15 +1,15 @@
 public abstract class Variable {
 
     protected  String name;
-    protected  int scope;
     protected String value;
-
-    Variable(String name,int scope){
-        this.name = name;
-        this.scope = scope;
-    }
+    protected boolean initialized = false;
 
     Variable(){}
+
+    Variable(String name){
+        this.name = name;
+    }
+
 
     public String getName(){
         return this.name;
@@ -19,7 +19,9 @@ public abstract class Variable {
         return this.scope;
     }
 
-    abstract String getValue();
+    abstract boolean checkValue(String value);
 
-    abstract void setValue(String value) throws Exception;
+    public boolean isIinitialized(){
+        return this.initialized;
+    }
 }

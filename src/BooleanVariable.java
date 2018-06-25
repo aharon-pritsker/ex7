@@ -3,16 +3,19 @@ import java.util.regex.Pattern;
 
 public class BooleanVariable extends Variable {
 
-    private final Pattern  pattern= Pattern.compile("true|false|[0-9]+\\.[0-9]+|[0-9]+");
+    private final Pattern  valueCheck= Pattern.compile("true|false|[0-9]+\\.?[0-9]+");
 
-    public boolean checkValue(String value){
-        Matcher matcher = pattern.matcher(value);
+    BooleanVariable(String name,String value) throws Exception{
+        super(name);
+        checkValue(value);
+    }
+
+    public void checkValue(String value) throws Exception{
+        Matcher matcher = valueCheck.matcher(value);
         if(matcher.matches()){
             initialized = true;
-            return true;
         }else{
-            initialized = false;
-            return false;
+            throw new Exception();
         }
     }
 }

@@ -3,16 +3,14 @@ import java.util.regex.Pattern;
 
 public class CharVariable extends Variable {
 
-    private final Pattern pattern = Pattern.compile("[^\\s]");
+    private final Pattern checkValue = Pattern.compile("'[^\\s]| *'");
 
-    public boolean checkValue(String value){
-        Matcher matcher = pattern.matcher(value);
+    public void checkValue(String value) throws Exception{
+        Matcher matcher = checkValue.matcher(value);
         if(matcher.matches()){
             initialized = true;
-            return true;
         }else{
-            initialized = false;
-            return false;
+            throw new Exception();
         }
     }
 }

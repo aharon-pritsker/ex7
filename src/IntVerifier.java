@@ -5,7 +5,6 @@ public class IntVerifier extends Verifier {
 
     private static final Pattern IntDefinition = Pattern.compile(" *int +(.*) *= *(.*);");
     private static final Pattern LegalValue = Pattern.compile("[0-9]+");
-    private static String verifiedName;
 
     public boolean verify(String toCheck){
         Matcher matcher = IntDefinition.matcher(toCheck);

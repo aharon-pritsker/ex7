@@ -3,20 +3,22 @@ import java.util.regex.Matcher;
 
 public class DoubleVariable extends Variable {
 
-    private final Pattern pattern = Pattern.compile("[0-9]+//.[0-9]+");
+    private final Pattern valueCheck = Pattern.compile("[0-9]+\\.?[0-9]+");
 
-    private String value;
-
-    DoubleVariable(String name,int scope,String value){
-        this.name = name;
-        this.scope = scope;
-        this.value = value;
+    DoubleVariable(String name,String value) throws Exception{
+        super(name);
+        checkValue(value);
     }
 
 
-    public boolean checkValue(String value){
-        Matcher matcher = pattern.matcher(value);
-        return matcher.matches();
+
+    public void checkValue(String value) throws Exception{
+        Matcher matcher = valueCheck.matcher(value);
+        if(matcher.matches()){
+            initialized = true;
+        }else{
+            throw new Exception();
+        }
     }
 
 }

@@ -3,15 +3,19 @@ import java.util.regex.Matcher;
 
 public class StringVariable extends Variable {
 
-    private final Pattern pattern = Pattern.compile("'([^\\s]| )*'");
+    private final Pattern checkValue = Pattern.compile("'([^\\s]| )*'");
 
-    public boolean checkValue(String value){
-        Matcher matcher = pattern.matcher(value);
-        if(matcher.matches()){
+    StringVariable(String name,String value)throws Exception{
+        super(name);
+        checkValue(value);
+    }
+
+    public void checkValue(String value) throws Exception {
+        Matcher matcher = checkValue.matcher(value);
+        if (matcher.matches()) {
             this.initialized = true;
-            return true;
+        } else {
+            throw new Exception();
         }
-        this.initialized = false;
-        return false;
     }
 }

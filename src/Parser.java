@@ -1,13 +1,16 @@
 import java.io.*;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Parser {
 
-     private static final Pattern IntDefinition = Pattern.compile(" *int +(.*)= *(.*);");
-     private static final Pattern BoolDefinition = Pattern.compile("\" *boolean +(.*) *= *(.*);\"");
-     private static final Pattern DoubleDefinition = Pattern.compile("\" *double +(.*) *= *(.*);\"");
-     private static final Pattern CharDefinition = Pattern.compile("\\s*char\\s(\\w+((\\s=\\s'\\S*')|(,\\s))*)+;");
-     private static final Pattern StringDefinition = Pattern.compile(" *String +(.*) *= *(.*);");
+    private static Scope currentScope;
+    private static ArrayList<MethodScope> methodList = new ArrayList<>();
+    private static ArrayList<String> suspectMethods = new ArrayList<>();
+    private static final Pattern MethodDefinition = Pattern.compile(" *void *(.+) *\\((.+)\\) *\\{");
+    private static final Pattern MethodCall = Pattern.compile(" *(.+)\\((.+)\\);");
+    private static int depth = 0;
 
 
     public static void main(String[] args) throws FileNotFoundException,IOException{
@@ -36,6 +39,17 @@ public class Parser {
                 //ifVerifier
             }
         }
+    }
+
+    private static boolean methodParser(String line)throws Exception{
+        Matcher definitionMatcher = MethodDefinition.matcher(line);
+        Matcher callMatcher = MethodCall.matcher(line);
+        if(definitionMatcher.matches() && depth == 0){
+            methodList.add(new MethodScope(depth,currentScope,definitionMatcher.group(0)));
+            if(definitionMatcher.group(1) != "''"){
+                //
+            }
+        }if(callMatcher)
     }
 
 }

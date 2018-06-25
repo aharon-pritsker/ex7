@@ -6,5 +6,7 @@ public class MethodScope extends Scope {
         returnFlag = false;
     }
 
-    public 
+    public void markReturn() {
+        returnFlag = true;
+    }
 }

@@ -6,7 +6,7 @@ public class MethodScope extends Scope {
 
     boolean returnFlag;
     private final String name;
-    private ArrayList<String> typeList = new ArrayList<String>();;
+    private ArrayList<Variable> typeList = new ArrayList<Variable>();
     private static final Pattern nameCheck = Pattern.compile("^_\\w+|[A-Za-z]\\w*");
 
     public MethodScope(int depth, Scope parent,String name)throws Exception{
@@ -18,6 +18,10 @@ public class MethodScope extends Scope {
         }else{
             throw new Exception();
         }
+    }
+
+    public ArrayList<Variable> getTypeList(){
+        return typeList;
     }
 
     public void markReturn() {

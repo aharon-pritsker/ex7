@@ -30,4 +30,6 @@ public abstract class Variable {
     public boolean isIinitialized(){
         return this.initialized;
     }
+
+    abstract String getType();
 }

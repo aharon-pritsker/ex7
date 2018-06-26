@@ -1,6 +1,6 @@
 public class VariableFactory {
 
-    public Variable MakeVariable(String type, String name, String value) {
+    public static Variable MakeVariable(String type, String name, String value,boolean finalFlag)throws Exception{
         if(type == null) {
             return null;
         } else if(type.equals("int")){
@@ -14,6 +14,6 @@ public class VariableFactory {
         } else if(type.equals("String")) {
             return new StringVariable(name, value);
         }
-        return null;
+        throw new Exception();
     }
 }

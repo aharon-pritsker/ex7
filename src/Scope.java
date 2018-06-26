@@ -5,6 +5,8 @@ public class Scope {
     Scope childScope;
     int scopeDepth;
     boolean closed;
+    Scope parentSCope;
+    private ArrayList<String> parsedLines = new ArrayList<>();
     ArrayList<Variable> scopeVariables;
 
     /**
@@ -16,7 +18,7 @@ public class Scope {
         scopeDepth = depth;
         scopeVariables = new ArrayList<Variable>();
         childScope = null;
-        Scope parentSCope = parent;
+        parentSCope = parent;
         closed = false;
     }
 
@@ -37,17 +39,25 @@ public class Scope {
     }
 
     /**
-     * This method finds the index of a certain variable in the variables list
+     * This method finds  a certain variable in the variables list
      * @param varName the variable's name
-     * @return the variable's index if it exists in the list, -1 if it doesn't
+     * @return the variable' if it exists in the list, null if it doesn't
      */
-    private int findVarInList(String varName) {
+    public Variable findVarInList(String varName) {
         for (Variable var: scopeVariables) {
             if(var.getName().equals(varName)) {
-                return scopeVariables.indexOf(var);
+                return var;
             }
         }
-        return -1;
+        Scope scope = parentSCope;
+        while(scope != null){
+            for(Variable var:scope.getVariableList()){
+                if(var.getName().equals(varName)){
+                    return var;
+                }
+            }
+        }
+        return null;
     }
 
     /**
@@ -55,10 +65,7 @@ public class Scope {
      * @param newVar the new variable
      */
     public void addVariable(Variable newVar) {
-        int varIndex = findVarInList(newVar.getName());
-        if(varIndex != -1) {
-            scopeVariables.remove(varIndex);
-        }
+        Variable varIndex = findVarInList(newVar.getName());
         scopeVariables.add(newVar);
     }
 
@@ -69,4 +76,11 @@ public class Scope {
         closed = true;
     }
 
+    public ArrayList<Variable> getVariableList(){
+        return scopeVariables;
+    }
+
+    public void addLine(String line){
+        parsedLines.add(line);
+    }
 }

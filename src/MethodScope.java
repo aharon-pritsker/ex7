@@ -6,8 +6,9 @@ public class MethodScope extends Scope {
 
     boolean returnFlag;
     private final String name;
+    private ArrayList<String> typeList = new ArrayList<String>();;
     private static final Pattern nameCheck = Pattern.compile("^_\\w+|[A-Za-z]\\w*");
-    private ArrayList<Variable> inputVariable = new ArrayList<>();
+
     public MethodScope(int depth, Scope parent,String name)throws Exception{
         super(depth, parent);
         returnFlag = false;

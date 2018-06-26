@@ -1,4 +1,8 @@
 public class VariableDefinitions {
 
-    public
+    public void DealWithString(String variables) {
+        variables.split(",");
+
+
+    }
 }

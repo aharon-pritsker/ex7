@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 public class CharVariable extends Variable {
 
     private final Pattern checkValue = Pattern.compile("'[^\\s]| *'");
+    private final static String type = "Char";
 
     public void checkValue(String value) throws Exception{
         Matcher matcher = checkValue.matcher(value);
@@ -12,5 +13,9 @@ public class CharVariable extends Variable {
         }else{
             throw new Exception();
         }
+    }
+
+    public static String getType(){
+        return type;
     }
 }

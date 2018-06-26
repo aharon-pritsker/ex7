@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 public class StringVariable extends Variable {
 
     private final Pattern checkValue = Pattern.compile("'([^\\s]| )*'");
+    private final static String type = "String";
 
     StringVariable(String name,String value)throws Exception{
         super(name);
@@ -17,5 +18,9 @@ public class StringVariable extends Variable {
         } else {
             throw new Exception();
         }
+    }
+
+    public static String getType(){
+        return type;
     }
 }

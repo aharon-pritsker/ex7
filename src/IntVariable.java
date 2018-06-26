@@ -3,6 +3,7 @@ import java.util.regex.Matcher;
 public class IntVariable extends Variable {
 
     private final Pattern checkValue = Pattern.compile("[0-9]+");
+    private final static String type = "int";
 
     IntVariable(String name,String value) throws Exception{
         super(name);
@@ -18,6 +19,10 @@ public class IntVariable extends Variable {
         }else{
             throw new Exception();
         }
+    }
+
+    public static String getType(){
+        return type;
     }
 
 }

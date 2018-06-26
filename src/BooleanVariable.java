@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 public class BooleanVariable extends Variable {
 
     private final Pattern  valueCheck= Pattern.compile("true|false|[0-9]+\\.?[0-9]+");
+    private static final String type = "boolean";
 
     BooleanVariable(String name,String value) throws Exception{
         super(name);
@@ -17,5 +18,9 @@ public class BooleanVariable extends Variable {
         }else{
             throw new Exception();
         }
+    }
+
+    public static String getType(){
+        return type;
     }
 }

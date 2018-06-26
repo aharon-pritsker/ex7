@@ -18,25 +18,7 @@ public class Parser {
         String line = reader.readLine();
         Scope currentScope;
         while(line != null){
-            if(line.contains("void")){
-                //MethodVerifier
-            }else if(line.contains("int")){
-                //IntVerifier
-            }else if(line.contains("boolean")){
-                //BooleanVerifier
-            }else if(line.contains("double")){
-                //DoubleVerifier
-            }else if(line.contains("char")){
-                //CharVerifier
-            }else if(line.contains("String")){
-                //StringVerifier
-            }else if(line.contains("=")){
-                //
-            }
-            else if(line.contains("While")){
-                //WhileVerifier
-            }else if(line.contains("if")){
-                //ifVerifier
+
             }
         }
     }
@@ -45,11 +27,13 @@ public class Parser {
         Matcher definitionMatcher = MethodDefinition.matcher(line);
         Matcher callMatcher = MethodCall.matcher(line);
         if(definitionMatcher.matches() && depth == 0){
-            methodList.add(new MethodScope(depth,currentScope,definitionMatcher.group(0)));
-            if(definitionMatcher.group(1) != "''"){
-                //
+            methodList.add(new MethodScope(depth,currentScope,definitionMatcher.group(1)));
+            if(definitionMatcher.group(2) != "''"){
+                String[] inputVariables = definitionMatcher.group(2).split(",");
+                //pass each one on to factory
             }
-        }if(callMatcher)
+        }if(callMatcher.matches()&& depth >= 1){
+            currentScope
     }
 
 }

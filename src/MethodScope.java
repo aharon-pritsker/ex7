@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -6,6 +7,7 @@ public class MethodScope extends Scope {
     boolean returnFlag;
     private final String name;
     private static final Pattern nameCheck = Pattern.compile("^_\\w+|[A-Za-z]\\w*");
+    private ArrayList<Variable> inputVariable = new ArrayList<>();
     public MethodScope(int depth, Scope parent,String name)throws Exception{
         super(depth, parent);
         returnFlag = false;

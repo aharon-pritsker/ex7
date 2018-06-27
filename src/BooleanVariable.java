@@ -9,6 +9,9 @@ public class BooleanVariable extends Variable {
     BooleanVariable(String name,String value) throws Exception{
         super(name);
         initialized = checkValue(value);
+        if(!initialized){
+            throw new Exception();
+        }
     }
 
     public boolean checkValue(String value){

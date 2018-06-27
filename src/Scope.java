@@ -4,6 +4,7 @@ public class Scope {
 
     Scope childScope;
     int scopeDepth;
+    int numOfArgs;
     boolean closed;
     Scope parentSCope;
     private ArrayList<String> parsedLines = new ArrayList<>();

@@ -56,18 +56,21 @@ public class Parser {
             Variable newVariable;
             ArrayList<Variable> variables = new ArrayList<>();
             String[] inputArguments = arguments.split(",");
+            int numOfArgs = 0;
             if(nameMatcher.matches()){
                 for(String argument:inputArguments){
                     argumentMatcher = methodInput.matcher(argument);
                     if(argumentMatcher.matches()){
                         newVariable = VariableFactory.MakeVariable(argumentMatcher.group(0),argumentMatcher.group(1),null,false);
                         variables.add(newVariable);
+                        numOfArgs++;
                     }
                 }
             }
             MethodScope method = new MethodScope(depth,globalScope,name);
             for(Variable variable:variables){
                 method.addVariable(variable);
+                method.setNumOfArgs(numOfArgs);
             }
         }
 
@@ -110,6 +113,13 @@ public class Parser {
             }
         }
 
+        private void MethodCall(String line) {
+            
+        }
+
+        private void VariableCall(String line) {
+
+        }
         private static boolean booleanConditionTester(String[] conditions){
             for(String condition:conditions){
                 Matcher booleanCheck = isBoolean.matcher(condition);
@@ -130,33 +140,33 @@ public class Parser {
 
 
 
-    private static boolean methodParser(String line)throws Exception{
-        Matcher definitionMatcher = MethodDefinition.matcher(line);
-        Matcher callMatcher = MethodCall.matcher(line);
-        if(definitionMatcher.matches() && depth == 0){
-            methodList.add(new MethodScope(depth,currentScope,definitionMatcher.group(1)));
-            if(!definitionMatcher.group(2).equals("''")){
-                String[] inputVariables = definitionMatcher.group(2).split(",");
-                //pass each one on to factory
+        private static boolean methodParser(String line)throws Exception {
+            Matcher definitionMatcher = MethodDefinition.matcher(line);
+            Matcher callMatcher = MethodCall.matcher(line);
+            if (definitionMatcher.matches() && depth == 0) {
+                methodList.add(new MethodScope(depth, currentScope, definitionMatcher.group(1)));
+                if (!definitionMatcher.group(2).equals("''")) {
+                    String[] inputVariables = definitionMatcher.group(2).split(",");
+                    //pass each one on to factory
+                }
             }
-        }if(callMatcher.matches()&& depth >= 1){
-            String[] input = callMatcher.group(2).split(",");
-            for(MethodScope method:methodList){
-                if(callMatcher.group(1).equals(method.getName())){
-                    if(input.length == method.getTypeList().size()){
-                        for(int i=0;i < input.length;i++){
-                            Variable searchResult = currentScope.findVarInList(input[i]);
-                            if(!(searchResult != null)){
-                                if(searchResult.getType().equals(method.getTypeList().get(i).getType())){
-                                    return false;
+            if (callMatcher.matches() && depth >= 1) {
+                String[] input = callMatcher.group(2).split(",");
+                for (MethodScope method : methodList) {
+                    if (callMatcher.group(1).equals(method.getName())) {
+                        if (input.length == method.getTypeList().size()) {
+                            for (int i = 0; i < input.length; i++) {
+                                Variable searchResult = currentScope.findVarInList(input[i]);
+                                if (!(searchResult != null)) {
+                                    if (searchResult.getType().equals(method.getTypeList().get(i).getType())) {
+                                        return false;
+                                    }
+                                } else {
+                                    suspectVariables.add(input[i]);
                                 }
-                            }else{
-                                suspectVariables.add(input[i]);
                             }
                         }
                     }
                 }
             }
-    }
-
 }

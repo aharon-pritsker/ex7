@@ -18,9 +18,9 @@ public class Parser {
     private static final Pattern methodCall = Pattern.compile(" *(.+) *\\((.+)\\);");
     private static final Pattern whileTest = Pattern.compile(" *while *\\((.+)\\) *\\{");
     private static final Pattern ifTest = Pattern.compile(" *if *\\((.+)\\) *\\{");
-    private static final Pattern conditionTest = Pattern.compile("\\|\\||&&");
     private static final Pattern isBoolean = Pattern.compile(" *true *| *false *| *-?[0-9]+.?[0-9]+ *");
     private static final Pattern isClosed = Pattern.compile("^( *\\} *)\\n");
+    private static final Pattern returnTest = Pattern.compile("^ *return *;\\n");
     private static final ArrayList<String> booleanTypes = new ArrayList<String>(Arrays.asList(new String[]{"boolean","Double","int"}));
     private static int depth = 0;
     private static int openParantheses = 0;
@@ -82,14 +82,16 @@ public class Parser {
             }
         }
 
-        private static void methodParser(File file)throws IOException {
+        private static void methodParser(File file)throws IOException,Exception{
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String line = reader.readLine();
+            String lastLine = line;
             while (line != null) {
                 Matcher MethodCheck = methodCall.matcher(line);
                 Matcher whileCheck = whileTest.matcher(line);
                 Matcher ifCheck = ifTest.matcher(line);
                 Matcher closedCheck = isClosed.matcher(line);
+                Matcher returnCheck = returnTest.matcher(lastLine);
                 if (ifCheck.matches()) {
                     String[] conditions = ifCheck.group(1).split("\\|\\||&&");
                     booleanConditionTester(conditions);
@@ -97,6 +99,13 @@ public class Parser {
                     String[] conditions = whileCheck.group(1).split("\\|\\||&&");
                     booleanConditionTester(conditions);
                 } else if (closedCheck.matches()){
+                    if(returnCheck.matches()){
+                       //closeScope
+                    }else{
+                        throw new Exception();
+                    }
+                }else if(MethodCheck.matches()){
+                    //
                 }
             }
         }

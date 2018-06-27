@@ -105,7 +105,7 @@ public class Parser {
         }
 
         private void MethodCall(String line) {
-            
+
         }
 
         private void VariableCall(String line) {

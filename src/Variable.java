@@ -36,4 +36,11 @@ public abstract class Variable {
     }
 
     abstract  String getType();
+
+    public void PutValue(String value) throws Exception {
+        boolean legalVal = checkValue(value);
+        if(!legalVal) {
+            throw new Exception();
+        }
+    }
 }

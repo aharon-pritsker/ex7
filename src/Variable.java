@@ -25,11 +25,11 @@ public abstract class Variable {
     }
 
 
-    abstract void checkValue(String value) throws Exception;
+    abstract boolean checkValue(String value) throws Exception;
 
     public boolean isIinitialized(){
         return this.initialized;
     }
 
-    abstract String getType();
+    abstract  String getType();
 }

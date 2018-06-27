@@ -1,5 +1,8 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -8,7 +11,6 @@ public class Parser {
     private static Scope currentScope;
     private static ArrayList<MethodScope> methodList = new ArrayList<>();
     private static final Pattern MethodDefinition = Pattern.compile(" *void *(.+) *\\((.+)\\) *\\{");
-    private static final Pattern MethodCall = Pattern.compile(" *(.+)\\((.+)\\);");
     private static final Pattern VariableDefinition = Pattern.compile(" *(final )? *([^\\s]+) *(.+) *;");
     private static final Pattern LegalName = Pattern.compile("^_\\w+|[A-Za-z]\\w*");
     private static final Pattern methodInput = Pattern.compile(" *([A-Za-z]+) +(^_\\w+|[A-Za-z]\\w*)");
@@ -16,20 +18,14 @@ public class Parser {
     private static final Pattern methodCall = Pattern.compile(" *(.+) *\\((.+)\\);");
     private static final Pattern whileTest = Pattern.compile(" *while *\\((.+)\\) *\\{");
     private static final Pattern ifTest = Pattern.compile(" *if *\\((.+)\\) *\\{");
+    private static final Pattern conditionTest = Pattern.compile("\\|\\||&&");
+    private static final Pattern isBoolean = Pattern.compile(" *true *| *false *| *-?[0-9]+.?[0-9]+ *");
+    private static final ArrayList<String> booleanTypes = new ArrayList<String>(Arrays.asList(new String[]{"boolean","Double","int"}));
     private static int depth = 0;
     private static int openParantheses = 0;
 
 
-    public static void main(String[] args) throws FileNotFoundException,IOException{
-        BufferedReader reader = new BufferedReader(new FileReader(args[1]));
-        String line = reader.readLine();
-        Scope currentScope;
-        while(line != null){
-            Matcher methodMatcher = MethodDefinition.
-            if()
-            }
-        }
-    }
+
 
     private static void declarationParse(File file) throws IOException{
         BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -89,10 +85,33 @@ public class Parser {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String line = reader.readLine();
             while(line != null){
-                Matcher MethodCheck = MethodCall.matcher(line);
+                Matcher MethodCheck = methodCall.matcher(line);
+                Matcher whileCheck = whileTest.matcher(line);
+                Matcher ifCheck = ifTest.matcher(line);
+                if(ifCheck.matches()){
+                    String[] conditions = ifCheck.group(1).split("\\|\\||&&");
+                }else if(whileCheck.matches()){
+                    String[] conditions = whileCheck.group(1).split("\\|\\||&&");
+                }
 
             }
         }
+
+        private static boolean booleanConditionTester(String[] conditions){
+            for(String condition:conditions){
+                Matcher booleanCheck = isBoolean.matcher(condition);
+                Matcher nameCheck = LegalName.matcher(condition);
+                if(!booleanCheck.matches()){
+                    if(nameCheck.matches()){
+                        Variable variable = currentScope.findVarInList(condition);
+                        if(!booleanTypes.contains(variable.getType())){
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
 
 
     private static boolean methodParser(String line)throws Exception{

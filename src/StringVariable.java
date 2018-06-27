@@ -8,19 +8,23 @@ public class StringVariable extends Variable {
 
     StringVariable(String name,String value)throws Exception{
         super(name);
-        checkValue(value);
-    }
-
-    public void checkValue(String value) throws Exception {
-        Matcher matcher = checkValue.matcher(value);
-        if (matcher.matches()) {
-            this.initialized = true;
-        } else {
+        initialized = checkValue(value);
+        if(!initialized){
             throw new Exception();
         }
     }
 
-    public static String getType(){
+    public boolean checkValue(String value) throws Exception {
+        Matcher matcher = checkValue.matcher(value);
+        if (matcher.matches()) {
+            this.value = value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public String getType(){
         return type;
     }
 }

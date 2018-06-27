@@ -8,21 +8,22 @@ public class DoubleVariable extends Variable {
 
     DoubleVariable(String name,String value) throws Exception{
         super(name);
-        checkValue(value);
+        initialized = checkValue(value);
     }
 
 
 
-    public void checkValue(String value) throws Exception{
+    public boolean checkValue(String value) throws Exception{
         Matcher matcher = valueCheck.matcher(value);
         if(matcher.matches()){
-            initialized = true;
+            this.value = value;
+            return true;
         }else{
-            throw new Exception();
+            return false;
         }
     }
 
-    public static String getType(){
+    public String getType(){
         return type;
     }
 

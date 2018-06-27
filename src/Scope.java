@@ -83,4 +83,17 @@ public class Scope {
     public void addLine(String line){
         parsedLines.add(line);
     }
+
+    public boolean CheckCall(Variable[] args) {
+        if(args.length != numOfArgs) {
+            return false;
+        }
+        for(int i = 0; i < numOfArgs; i++) {
+            if(scopeVariables.get(i).getType().equals(args[i].getType()));
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }

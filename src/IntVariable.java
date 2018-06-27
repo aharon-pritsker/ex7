@@ -7,21 +7,25 @@ public class IntVariable extends Variable {
 
     IntVariable(String name,String value) throws Exception{
         super(name);
-        checkValue(value);
-    }
-
-
-
-    public void checkValue(String value)throws Exception{
-        Matcher matcher = checkValue.matcher(value);
-        if(matcher.matches()){
-            initialized = true;
-        }else{
+        initialized = checkValue(value);
+        if(!initialized){
             throw new Exception();
         }
     }
 
-    public static String getType(){
+
+
+    public boolean checkValue(String value){
+        Matcher matcher = checkValue.matcher(value);
+        if(matcher.matches()){
+            this.value = value;
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public String getType(){
         return type;
     }
 

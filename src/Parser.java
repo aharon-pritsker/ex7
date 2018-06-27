@@ -19,7 +19,7 @@ public class Parser {
     private static final Pattern whileTest = Pattern.compile(" *while *\\((.+)\\) *\\{");
     private static final Pattern ifTest = Pattern.compile(" *if *\\((.+)\\) *\\{");
     private static final Pattern isBoolean = Pattern.compile(" *true *| *false *| *-?[0-9]+.?[0-9]+ *");
-    private static final Pattern isClosed = Pattern.compile("^( *\\} *)\\n");
+    private static final Pattern isClosed = Pattern.compile("^( *} *)\\n");
     private static final Pattern returnTest = Pattern.compile("^ *return *;\\n");
     private static final ArrayList<String> booleanTypes = new ArrayList<String>(Arrays.asList(new String[]{"boolean","Double","int"}));
     private static int depth = 0;
@@ -108,18 +108,32 @@ public class Parser {
                         throw new Exception();
                     }
                 }else if(MethodCheck.matches()){
-                    //
-                }
+                    MethodCall(MethodCheck.group(1),MethodCheck.group(2));
+                }else if()
             }
         }
 
-        private void MethodCall(String line) {
-            
-        }
+        private static boolean MethodCall(String name,String arguments) {
+            Matcher nameMatcher = LegalName.matcher(name);
+            String[] splitArguments = arguments.split(",");
+            if(nameMatcher.matches()){
+                for(MethodScope method:methodList){
+                    if(method.getName().equals(name)){
+                            for(int i =0 ;i < splitArguments.length;i++){
+                                Variable currentFind = currentScope.findVarInList(splitArguments[i]);
+                                if(currentFind != null){
+                                    splitArguments[i] = currentFind.getValue();
+                                }
+                            }
+                            if(method.CheckCall(splitArguments)){
+                                return true;
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
 
-        private void VariableCall(String line) {
-
-        }
         private static boolean booleanConditionTester(String[] conditions){
             for(String condition:conditions){
                 Matcher booleanCheck = isBoolean.matcher(condition);

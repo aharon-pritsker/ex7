@@ -6,16 +6,24 @@ public class CharVariable extends Variable {
     private final Pattern checkValue = Pattern.compile("'[^\\s]| *'");
     private final static String type = "Char";
 
-    public void checkValue(String value) throws Exception{
-        Matcher matcher = checkValue.matcher(value);
-        if(matcher.matches()){
-            initialized = true;
-        }else{
+    CharVariable(String name,String value) throws Exception{
+        super(name);
+        initialized = checkValue(value);
+        if(!initialized){
             throw new Exception();
         }
     }
 
-    public static String getType(){
+    public boolean checkValue(String value){
+        Matcher matcher = checkValue.matcher(value);
+        if(matcher.matches()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public String getType(){
         return type;
     }
 }

@@ -9,11 +9,14 @@ public class DoubleVariable extends Variable {
     DoubleVariable(String name,String value) throws Exception{
         super(name);
         initialized = checkValue(value);
+        if(!initialized){
+            throw new Exception();
+        }
     }
 
 
 
-    public boolean checkValue(String value) throws Exception{
+    public boolean checkValue(String value){
         Matcher matcher = valueCheck.matcher(value);
         if(matcher.matches()){
             this.value = value;

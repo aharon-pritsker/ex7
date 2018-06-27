@@ -14,7 +14,7 @@ public class StringVariable extends Variable {
         }
     }
 
-    public boolean checkValue(String value) throws Exception {
+    public boolean checkValue(String value){
         Matcher matcher = checkValue.matcher(value);
         if (matcher.matches()) {
             this.value = value;

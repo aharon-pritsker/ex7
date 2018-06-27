@@ -20,6 +20,7 @@ public class Parser {
     private static final Pattern ifTest = Pattern.compile(" *if *\\((.+)\\) *\\{");
     private static final Pattern conditionTest = Pattern.compile("\\|\\||&&");
     private static final Pattern isBoolean = Pattern.compile(" *true *| *false *| *-?[0-9]+.?[0-9]+ *");
+    private static final Pattern isClosed = Pattern.compile("^( *\\} *)\\n");
     private static final ArrayList<String> booleanTypes = new ArrayList<String>(Arrays.asList(new String[]{"boolean","Double","int"}));
     private static int depth = 0;
     private static int openParantheses = 0;
@@ -81,19 +82,22 @@ public class Parser {
             }
         }
 
-        private static void methodParser(File file)throws IOException{
+        private static void methodParser(File file)throws IOException {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String line = reader.readLine();
-            while(line != null){
+            while (line != null) {
                 Matcher MethodCheck = methodCall.matcher(line);
                 Matcher whileCheck = whileTest.matcher(line);
                 Matcher ifCheck = ifTest.matcher(line);
-                if(ifCheck.matches()){
+                Matcher closedCheck = isClosed.matcher(line);
+                if (ifCheck.matches()) {
                     String[] conditions = ifCheck.group(1).split("\\|\\||&&");
-                }else if(whileCheck.matches()){
+                    booleanConditionTester(conditions);
+                } else if (whileCheck.matches()) {
                     String[] conditions = whileCheck.group(1).split("\\|\\||&&");
+                    booleanConditionTester(conditions);
+                } else if (closedCheck.matches()){
                 }
-
             }
         }
 
@@ -104,12 +108,15 @@ public class Parser {
                 if(!booleanCheck.matches()){
                     if(nameCheck.matches()){
                         Variable variable = currentScope.findVarInList(condition);
-                        if(!booleanTypes.contains(variable.getType())){
+                        if(!booleanTypes.contains(variable.getType())&&variable.isIinitialized()){
                             return false;
                         }
+                        return true;
                     }
+                    return false;
                 }
             }
+            return true;
         }
 
 
